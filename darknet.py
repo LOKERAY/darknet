@@ -121,19 +121,21 @@ def load_network(config_file, data_file, weights, batch_size=1):
 def print_detections(detections, coordinates=False):
     print("\nObjects:")
     for label, confidence, bbox in detections:
-        x, y, w, h = bbox
-        if coordinates:
-            print("{}: {}%    (left_x: {:.0f}   top_y:  {:.0f}   width:   {:.0f}   height:  {:.0f})".format(label, confidence, x, y, w, h))
-        else:
-            print("{}: {}%".format(label, confidence))
+        if(label=='person'):
+            x, y, w, h = bbox
+            if coordinates:
+                print("{}: {}%    (left_x: {:.0f}   top_y:  {:.0f}   width:   {:.0f}   height:  {:.0f})".format(label, confidence, x, y, w, h))
+            else:
+                print("{}: {}%".format(label, confidence))
 
 
 def draw_boxes(detections, image, colors):
     import cv2
     for label, confidence, bbox in detections:
-        left, top, right, bottom = bbox2points(bbox)
-        cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
-        cv2.putText(image, "{} [{:.2f}]".format(label, float(confidence)),
+        if (label=='person'):
+            left, top, right, bottom = bbox2points(bbox)
+            cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
+            cv2.putText(image, "{} [{:.2f}]".format(label, float(confidence)),
                     (left, top - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                     colors[label], 2)
     return image
