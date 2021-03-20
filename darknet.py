@@ -121,6 +121,7 @@ def load_network(config_file, data_file, weights, batch_size=1):
 def print_detections(detections, coordinates=False):
     print("\nObjects:")
     for label, confidence, bbox in detections:
+        print(label)
         if(label=='person'):
             x, y, w, h = bbox
             if coordinates:
